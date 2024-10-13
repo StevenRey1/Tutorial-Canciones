@@ -1,10 +1,10 @@
 from flask import request
-from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema
+from modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token
 from datetime import datetime
-from ..tareas import registrar_log
+from tareas import registrar_log
 
 cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()

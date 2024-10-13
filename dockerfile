@@ -22,4 +22,4 @@ COPY . /app/
 EXPOSE 8000
 
 # Comando para ejecutar tu aplicación 
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8000"]
+CMD ["python", "-m", "app.app"]

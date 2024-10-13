@@ -10,7 +10,7 @@ services:
     volumes:
       - ./flaskr:/app
     ports:
-      - "5000:8000"  # Puerto del host mapeado al contenedor
+      - "8000:8000"  # Puerto del host mapeado al contenedor
     depends_on:
       - redis
     command: ["gunicorn", "app:app", "--bind", "0.0.0.0:8000"]
@@ -23,8 +23,8 @@ services:
     volumes:
       - ./microservicio_1:/app
     ports:
-      - "5001:8000"  # Puerto del host diferente
-    command: ["gunicorn", "app:app", "--bind", "0.0.0.0:8000"]
+      - "8001:8001"  # Puerto del host diferente
+    command: ["gunicorn", "app:app", "--bind", "0.0.0.0:8001"]
 
   microservicio_2:
     build:
@@ -34,14 +34,15 @@ services:
     volumes:
       - ./microservicio_2/flaskr:/app
     ports:
-      - "5002:8000"  # Puerto del host diferente
+      - "8002:8002"  # Puerto del host diferente
     depends_on:
       - redis
-    command: ["gunicorn", "app:app", "--bind", "0.0.0.0:8000"]
+    command: ["gunicorn", "app:app", "--bind", "0.0.0.0:8002"]
 
   celery_flaskr:
     build:
       context: ./flaskr
+      dockerfile: ../Dockerfile
     container_name: celery_flaskr
     depends_on:
       - redis
@@ -49,11 +50,12 @@ services:
 
   celery_microservicio_2:
     build:
-      context: ./microservicio_2
+      context: ./microservicio_2/flaskr
+      dockerfile: ../../Dockerfile
     container_name: celery_microservicio_2
     depends_on:
       - redis
-    command: ["celery", "-A", "flaskr.tareas", "worker", "--loglevel=info"]
+    command: ["celery", "-A", "tareas", "worker", "--loglevel=info"]
 
 
   nginx:

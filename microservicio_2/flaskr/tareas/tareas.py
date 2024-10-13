@@ -1,5 +1,5 @@
-from ..app import db
-from ..modelos import  Cancion, CancionSchema
+from app import db
+from modelos import  Cancion, CancionSchema
 import os
 from celery import Celery
 from celery.signals import task_postrun
@@ -7,7 +7,7 @@ from flask.globals import current_app
 
 cancion_schema = CancionSchema()
 
-app = Celery('tasks', broker='redis://localhost:6379/0')
+app = Celery('tasks', broker='redis://redis:6379/0')
 
 @app.task(name="tabla.registrar")
 def registrar_puntaje(cancion_json):
